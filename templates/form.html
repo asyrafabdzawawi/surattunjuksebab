@@ -1,55 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Borang Tidak Hadir Sekolah</title>
+    <title>Borang Surat Tidak Hadir Ke Sekolah</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #003366, #0055aa);
             padding: 20px;
         }
+
         .container {
-            max-width: 600px;
+            max-width: 650px;
             background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
             margin: auto;
         }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header img {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 5px 0;
+            font-size: 20px;
+            color: #003366;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 13px;
+            color: #666;
+        }
+
         h2 {
             text-align: center;
             color: #003366;
+            margin-bottom: 25px;
         }
+
         label {
-            font-weight: bold;
+            font-weight: 600;
+            color: #003366;
         }
+
         input, select, textarea {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             margin-top: 5px;
-            margin-bottom: 15px;
-            border-radius: 5px;
+            margin-bottom: 18px;
+            border-radius: 8px;
             border: 1px solid #ccc;
+            transition: 0.3s;
         }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #0055aa;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0,85,170,0.3);
+        }
+
         button {
             width: 100%;
-            padding: 12px;
-            background: #003366;
+            padding: 14px;
+            background: linear-gradient(135deg, #003366, #0055aa);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            transition: 0.3s;
         }
+
         button:hover {
-            background: #0055aa;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 20px;
+            color: #888;
+        }
+
     </style>
 </head>
 <body>
 
 <div class="container">
+
+    <div class="header">
+        <img src="logo.png" alt="Logo Sekolah">
+        <h1>SEKOLAH KEBANGSAAN ULU MANDING</h1>
+        <p>“Pendidikan Berkualiti Insan Terdidik Negara Sejahtera”</p>
+    </div>
+
     <h2>Borang Surat Tidak Hadir</h2>
 
     <form action="/generate" method="post">
@@ -60,31 +116,25 @@
         <label>Kelas</label>
         <select name="kelas" required>
             <option value="">-- Pilih Kelas --</option>
-
             <option value="1 Amber">1 Amber</option>
             <option value="1 Amethyst">1 Amethyst</option>
             <option value="1 Aquamarine">1 Aquamarine</option>
-
             <option value="2 Amber">2 Amber</option>
             <option value="2 Amethyst">2 Amethyst</option>
             <option value="2 Aquamarine">2 Aquamarine</option>
-
             <option value="3 Amber">3 Amber</option>
             <option value="3 Amethyst">3 Amethyst</option>
             <option value="3 Aquamarine">3 Aquamarine</option>
-
             <option value="4 Amber">4 Amber</option>
             <option value="4 Amethyst">4 Amethyst</option>
             <option value="4 Aquamarine">4 Aquamarine</option>
-
             <option value="5 Amber">5 Amber</option>
             <option value="5 Amethyst">5 Amethyst</option>
             <option value="5 Aquamarine">5 Aquamarine</option>
-
             <option value="6 Amber">6 Amber</option>
             <option value="6 Amethyst">6 Amethyst</option>
             <option value="6 Aquamarine">6 Aquamarine</option>
-    </select>
+        </select>
 
         <label>Tarikh Mula</label>
         <input type="date" name="tarikh_mula" required>
@@ -101,9 +151,14 @@
         <label>Alamat Waris</label>
         <textarea name="alamat_waris" rows="4" required></textarea>
 
-        <button type="submit">Generate Surat PDF</button>
+        <button type="submit">📄 Generate Surat PDF</button>
 
     </form>
+
+    <div class="footer">
+        Sistem Digital Kehadiran Sekolah © 2026
+    </div>
+
 </div>
 
 </body>
