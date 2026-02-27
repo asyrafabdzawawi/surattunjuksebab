@@ -36,7 +36,8 @@ def generate_pdf():
             nama_kelas_auto = f"{tahun} {aliran}"
             alamat_map[nama_kelas_auto] = f"""Guru Kelas {nama_kelas_auto}
 Sekolah Kebangsaan Labu Besar
-Kg Padang Ubi, 09010 Kulim"""
+Kg Padang Ubi, 09010 Kulim
+Kedah Darul Aman"""
 
     alamat_sekolah = alamat_map.get(kelas.strip(), "")
 
