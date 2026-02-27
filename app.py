@@ -109,8 +109,6 @@ Kedah Darul Aman."""
 
     # ===== ALAMAT SEKOLAH + TARIKH SEBARIS (VERSI KEMAS) =====
 
-   # ===== ALAMAT SEKOLAH + TARIKH SEBARIS (VERSI PRECISE) =====
-
     alamat_lines = alamat_sekolah.split("\n")
 
     # Papar semua kecuali baris terakhir dahulu
@@ -123,14 +121,15 @@ Kedah Darul Aman."""
         Paragraph(tarikh_hari_ini, style_right)
     ]]
 
+    # Lebar ikut margin sebenar
     usable_width = A4[0] - doc.leftMargin - doc.rightMargin
 
-    table = Table(data, colWidths=[None, None])
-    table._argW[0] = usable_width - 1  # paksa table guna full lebar
+    table = Table(data, colWidths=[usable_width - 110, 110])
 
     table.setStyle(TableStyle([
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-        ('ALIGN', (1, 0), (1, 0), 'RIGHT'),
+        ('ALIGN', (0, 0), (0, 0), 'LEFT'),   # Paksa kiri
+        ('ALIGN', (1, 0), (1, 0), 'RIGHT'),  # Tarikh kanan
         ('LEFTPADDING', (0, 0), (-1, -1), 0),
         ('RIGHTPADDING', (0, 0), (-1, -1), 0),
         ('TOPPADDING', (0, 0), (-1, -1), 0),
