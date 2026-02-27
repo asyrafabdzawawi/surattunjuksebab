@@ -4,8 +4,6 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_JUSTIFY
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.pdfbase import pdfmetrics
 from datetime import datetime
 from reportlab.platypus import HRFlowable
 import os
@@ -35,16 +33,16 @@ def generate_pdf():
 
     for tahun in tahun_list:
         for aliran in aliran_list:
-            nama_kelas = f"{tahun} {aliran}"
-            alamat_map[nama_kelas] = f"""Guru Kelas {nama_kelas}
-    Sekolah Kebangsaan Labu Besar
-    Kg Padang Ubi
-    09010 Kulim"""
+            nama_kelas_auto = f"{tahun} {aliran}"
+            alamat_map[nama_kelas_auto] = f"""Guru Kelas {nama_kelas_auto}
+Sekolah Kebangsaan Labu Besar
+Kg Padang Ubi
+09010 Kulim"""
 
     alamat_sekolah = alamat_map.get(kelas.strip(), "")
 
     filename = f"Surat_Tidak_Hadir_{nama}.pdf"
-    filepath = "temp.pdf"
+    filepath = f"/tmp/{filename}"
 
     doc = SimpleDocTemplate(
         filepath,
