@@ -7,9 +7,6 @@ from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_JUSTIFY
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from datetime import datetime
-from reportlab.platypus import Table, TableStyle
-from reportlab.lib import colors
-
 import os
 
 app = Flask(__name__)
@@ -27,79 +24,129 @@ def generate_pdf():
     tarikh_akhir = request.form['tarikh_akhir']
     sebab = request.form['sebab']
     nama_waris = request.form['nama_waris']
+    alamat_waris = request.form['alamat_waris']
+
+    # ===== Mapping alamat sekolah ikut kelas =====
+    alamat_map = {
+        "4 AMBER": "Guru Kelas 4 AMBER\nSekolah Kebangsaan Ulu Manding\nSarawak",
+        "5 AMBER": "Guru Kelas 5 AMBER\nSekolah Kebangsaan Ulu Manding\nSarawak",
+        "6 AMBER": "Guru Kelas 6 AMBER\nSekolah Kebangsaan Ulu Manding\nSarawak"
+    }
+
+    alamat_sekolah = alamat_map.get(kelas, "")
 
     filename = f"Surat_Tidak_Hadir_{nama}.pdf"
-    filepath = f"/tmp/{filename}"
+    filepath = "temp.pdf"
 
     doc = SimpleDocTemplate(
         filepath,
         pagesize=A4,
-        rightMargin=72,
-        leftMargin=72,
-        topMargin=60,
-        bottomMargin=60
+        rightMargin=40,
+        leftMargin=40,
+        topMargin=40,
+        bottomMargin=40
     )
 
     elements = []
     styles = getSampleStyleSheet()
 
-    normal = styles['Normal']
-    bold = styles['Heading4']
+    style_normal = ParagraphStyle(
+        'normal',
+        parent=styles['Normal'],
+        fontSize=12,
+        leading=20,
+        alignment=TA_JUSTIFY
+    )
 
-    # Nama & alamat atas
-    elements.append(Paragraph(f"{nama_waris}", normal))
-    elements.append(Paragraph("Taman Selasih", normal))
-    elements.append(Spacer(1, 12))
+    style_left = ParagraphStyle(
+        'left',
+        parent=styles['Normal'],
+        fontSize=12,
+        leading=20,
+        alignment=TA_LEFT
+    )
 
-    # Garisan pendek (tak full page)
-    line = Table([[""]], colWidths=350)
-    line.setStyle(TableStyle([
-        ('LINEBELOW', (0,0), (-1,-1), 1, colors.black),
-    ]))
-    elements.append(line)
-    elements.append(Spacer(1, 20))
+    style_right = ParagraphStyle(
+        'right',
+        parent=styles['Normal'],
+        fontSize=12,
+        leading=20,
+        alignment=TA_RIGHT
+    )
 
-    # Tarikh kanan
-    tarikh_hari_ini = datetime.now().strftime("%d %B %Y")
-    elements.append(Paragraph(f"{tarikh_hari_ini}", normal))
-    elements.append(Spacer(1, 20))
+    # ===== FORMAT TARIKH BM =====
+    bulan_bm = {
+        1: "Januari", 2: "Februari", 3: "Mac", 4: "April",
+        5: "Mei", 6: "Jun", 7: "Julai", 8: "Ogos",
+        9: "September", 10: "Oktober", 11: "November", 12: "Disember"
+    }
 
-    # Penerima
-    elements.append(Paragraph(f"Guru Kelas {kelas}", normal))
-    elements.append(Paragraph("Sekolah Kebangsaan Ulu Manding", normal))
-    elements.append(Paragraph("Sarawak", normal))
-    elements.append(Spacer(1, 20))
+    today = datetime.today()
+    tarikh_hari_ini = f"{today.day} {bulan_bm[today.month]} {today.year}"
 
-    elements.append(Paragraph("Tuan / Puan,", normal))
-    elements.append(Spacer(1, 12))
+    # ===== ALAMAT WARIS =====
+    elements.append(Paragraph(nama_waris, style_left))
+    elements.append(Paragraph(alamat_waris.replace("\n", "<br/>"), style_left))
+    elements.append(Spacer(1, 0.2 * inch))
 
-    elements.append(Paragraph("<b>PER: MAKLUMAN TIDAK HADIR KE SEKOLAH</b>", normal))
-    elements.append(Spacer(1, 12))
+    # ===== GARIS PANJANG =====
+    elements.append(Paragraph("<hr width='100%'/>", style_left))
+    elements.append(Spacer(1, 0.3 * inch))
 
-    elements.append(Paragraph("Dengan segala hormatnya perkara di atas adalah dirujuk.", normal))
-    elements.append(Spacer(1, 12))
+    # ===== TARIKH (KANAN) =====
+    elements.append(Paragraph(tarikh_hari_ini, style_right))
+    elements.append(Spacer(1, 0.35 * inch))
 
-    isi = f"""
-    2. Saya ingin memaklumkan bahawa anak saya {nama} dari kelas {kelas}
-    tidak dapat hadir ke sekolah bermula {tarikh_mula} hingga {tarikh_akhir}
-    kerana {sebab}.
+    # ===== ALAMAT SEKOLAH =====
+    elements.append(Paragraph(alamat_sekolah.replace("\n", "<br/>"), style_left))
+    elements.append(Spacer(1, 0.2 * inch))
+
+    # ===== TUAN / PUAN =====
+    elements.append(Paragraph("Tuan / Puan,", style_left))
+    elements.append(Spacer(1, 0.3 * inch))
+
+    # ===== PERKARA =====
+    elements.append(Paragraph("<b>PER: MAKLUMAN TIDAK HADIR KE SEKOLAH</b>", style_left))
+    elements.append(Spacer(1, 0.3 * inch))
+
+    # ===== PERENGGAN 1 =====
+    elements.append(Paragraph("Dengan segala hormatnya perkara di atas adalah dirujuk.", style_normal))
+    elements.append(Spacer(1, 0.4 * inch))
+
+    # ===== PERENGGAN 2 =====
+    perenggan2 = f"""
+    2. Saya {nama_waris} ingin memaklumkan bahawa anak saya {nama}
+    dari kelas {kelas} tidak dapat hadir ke sekolah bermula
+    {tarikh_mula} hingga {tarikh_akhir} kerana {sebab}.
     """
-    elements.append(Paragraph(isi, normal))
-    elements.append(Spacer(1, 12))
+    elements.append(Paragraph(perenggan2, style_normal))
+    elements.append(Spacer(1, 0.4 * inch))
 
-    elements.append(Paragraph("Kerjasama dan perhatian pihak tuan/puan amatlah dihargai.", normal))
-    elements.append(Spacer(1, 20))
+    # ===== PERENGGAN 3 =====
+    perenggan3 = """
+    3. Sehubungan itu, saya memohon agar pihak tuan/puan dapat
+    memberikan pelepasan kepada anak saya sepanjang tempoh tersebut.
+    """
+    elements.append(Paragraph(perenggan3, style_normal))
+    elements.append(Spacer(1, 0.5 * inch))
 
-    elements.append(Paragraph("Sekian, terima kasih.", normal))
-    elements.append(Spacer(1, 40))
+    elements.append(Paragraph("Kerjasama dan perhatian pihak tuan/puan amatlah dihargai.", style_normal))
+    elements.append(Spacer(1, 0.6 * inch))
 
-    elements.append(Paragraph("Yang benar,", normal))
-    elements.append(Spacer(1, 40))
-    elements.append(Paragraph(f"({nama_waris})", normal))
+    # ===== PENUTUP =====
+    elements.append(Paragraph("Sekian, terima kasih.", style_left))
+    elements.append(Spacer(1, 0.6 * inch))
+
+    elements.append(Paragraph("Yang benar,", style_left))
+    elements.append(Spacer(1, 0.8 * inch))
+
+    # ===== GARIS TANDATANGAN =====
+    elements.append(Paragraph("______________________________", style_left))
+    elements.append(Paragraph(f"({nama_waris})", style_left))
 
     doc.build(elements)
 
-    return send_file(filepath, as_attachment=True)
+    return send_file(filepath, as_attachment=True, download_name=filename)
 
 
 if __name__ == '__main__':
