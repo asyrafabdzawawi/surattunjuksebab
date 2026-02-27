@@ -6,6 +6,7 @@ from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_JUSTIFY
 from datetime import datetime
 from reportlab.platypus import HRFlowable
+from reportlab.platypus import Table, TableStyle
 import os
 
 app = Flask(__name__)
@@ -106,13 +107,31 @@ Kedah Darul Aman"""
     ))
     elements.append(Spacer(1, 0.3 * inch))
 
-    # ===== TARIKH (KANAN) =====
-    elements.append(Paragraph(tarikh_hari_ini, style_right))
-    elements.append(Spacer(1, 0.35 * inch))
+    # ===== ALAMAT SEKOLAH + TARIKH SEBARIS =====
 
-    # ===== ALAMAT SEKOLAH =====
-    elements.append(Paragraph(alamat_sekolah.replace("\n", "<br/>"), style_left))
-    elements.append(Spacer(1, 0.2 * inch))
+    # Pecahkan alamat sekolah kepada baris
+    alamat_lines = alamat_sekolah.split("\n")
+
+    # Masukkan semua kecuali baris terakhir dahulu
+    for line in alamat_lines[:-1]:
+        elements.append(Paragraph(line, style_left))
+
+    # Baris terakhir + tarikh dalam satu baris (2 column table)
+    data = [
+        [
+            Paragraph(alamat_lines[-1], style_left),
+            Paragraph(tarikh_hari_ini, style_right)
+        ]
+    ]
+
+    table = Table(data, colWidths=[350, 120])
+
+    table.setStyle(TableStyle([
+        ('VALIGN', (0, 0), (-1, -1), 'TOP')
+    ]))
+
+    elements.append(table)
+    elements.append(Spacer(1, 0.3 * inch))
 
     # ===== TUAN / PUAN =====
     elements.append(Paragraph("Tuan / Puan,", style_left))
