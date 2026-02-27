@@ -112,32 +112,16 @@ Kg Padang Ubi, 09010 Kulim,
     alamat_lines = alamat_sekolah.split("\n")
 
     # Papar semua kecuali baris terakhir dahulu
-    for line in alamat_lines[:-1]:
+    # Papar semua baris alamat
+    for line in alamat_lines:
         elements.append(Paragraph(line, style_left))
 
-    # Baris terakhir + tarikh
-    data = [[
-        Paragraph(alamat_lines[-1], style_left),
-        Paragraph(tarikh_hari_ini, style_right)
-    ]]
+    elements.append(Spacer(1, 0.1 * inch))
 
-    # Lebar ikut margin sebenar
-    usable_width = A4[0] - doc.leftMargin - doc.rightMargin
+    # Tarikh asingkan dan align kanan
+    elements.append(Paragraph(tarikh_hari_ini, style_right))
 
-    table = Table(data, colWidths=[usable_width - 110, 110])
-
-    table.setStyle(TableStyle([
-        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-        ('ALIGN', (0, 0), (0, 0), 'LEFT'),   # Paksa kiri
-        ('ALIGN', (1, 0), (1, 0), 'RIGHT'),  # Tarikh kanan
-        ('LEFTPADDING', (0, 0), (-1, -1), 0),
-        ('RIGHTPADDING', (0, 0), (-1, -1), 0),
-        ('TOPPADDING', (0, 0), (-1, -1), 0),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
-    ]))
-
-    elements.append(table)
-    elements.append(Spacer(1, 0.3 * inch))
+   
 
     # ===== TUAN / PUAN =====
     elements.append(Paragraph("Tuan / Puan,", style_left))
