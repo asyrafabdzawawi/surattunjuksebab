@@ -8,6 +8,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from datetime import datetime
 from reportlab.platypus import Table, TableStyle
+from reportlab.lib import colors
 
 import os
 
@@ -28,7 +29,7 @@ def generate_pdf():
     nama_waris = request.form['nama_waris']
 
     filename = f"Surat_Tidak_Hadir_{nama}.pdf"
-    filepath = "temp.pdf"
+    filepath = f"/tmp/{filename}"
 
     doc = SimpleDocTemplate(
         filepath,
