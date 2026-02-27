@@ -7,6 +7,8 @@ from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_JUSTIFY
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from datetime import datetime
+from reportlab.platypus import Table, TableStyle
+
 import os
 
 app = Flask(__name__)
