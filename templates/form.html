@@ -1,30 +1,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Surat Tidak Hadir</title>
+    <title>Borang Tidak Hadir Sekolah</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin: auto;
+        }
+        h2 {
+            text-align: center;
+            color: #003366;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #003366;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0055aa;
+        }
+    </style>
 </head>
 <body>
-    <h2>Borang Tidak Hadir Sekolah</h2>
+
+<div class="container">
+    <h2>Borang Surat Tidak Hadir</h2>
+
     <form action="/generate" method="post">
-        Nama Murid:<br>
-        <input type="text" name="nama" required><br><br>
 
-        Kelas:<br>
-        <input type="text" name="kelas" required><br><br>
+        <label>Nama Murid</label>
+        <input type="text" name="nama" required>
 
-        Tarikh Mula:<br>
-        <input type="date" name="tarikh_mula" required><br><br>
+        <label>Kelas</label>
+        <select name="kelas" required>
+            <option value="">-- Pilih Kelas --</option>
+            <option value="4 AMBER">4 AMBER</option>
+            <option value="5 AMBER">5 AMBER</option>
+            <option value="6 AMBER">6 AMBER</option>
+        </select>
 
-        Tarikh Akhir:<br>
-        <input type="date" name="tarikh_akhir" required><br><br>
+        <label>Tarikh Mula</label>
+        <input type="date" name="tarikh_mula" required>
 
-        Sebab:<br>
-        <input type="text" name="sebab" required><br><br>
+        <label>Tarikh Akhir</label>
+        <input type="date" name="tarikh_akhir" required>
 
-        Nama Waris:<br>
-        <input type="text" name="nama_waris" required><br><br>
+        <label>Sebab Tidak Hadir</label>
+        <textarea name="sebab" rows="3" required></textarea>
 
-        <button type="submit">Generate PDF</button>
+        <label>Nama Waris</label>
+        <input type="text" name="nama_waris" required>
+
+        <label>Alamat Waris</label>
+        <textarea name="alamat_waris" rows="4" required></textarea>
+
+        <button type="submit">Generate Surat PDF</button>
+
     </form>
+</div>
+
 </body>
 </html>
