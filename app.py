@@ -27,14 +27,21 @@ def generate_pdf():
     nama_waris = request.form['nama_waris']
     alamat_waris = request.form['alamat_waris']
 
-    # ===== Mapping alamat sekolah ikut kelas =====
-    alamat_map = {
-        "4 AMBER": "Guru Kelas 4 AMBER\nSekolah Kebangsaan Ulu Manding\nSarawak",
-        "5 AMBER": "Guru Kelas 5 AMBER\nSekolah Kebangsaan Ulu Manding\nSarawak",
-        "6 AMBER": "Guru Kelas 6 AMBER\nSekolah Kebangsaan Ulu Manding\nSarawak"
-    }
+    # ===== AUTO GENERATE SENARAI KELAS SK LABU BESAR =====
+    tahun_list = [1, 2, 3, 4, 5, 6]
+    aliran_list = ["Amber", "Amethyst", "Aquamarine"]
 
-    alamat_sekolah = alamat_map.get(kelas, "")
+    alamat_map = {}
+
+    for tahun in tahun_list:
+        for aliran in aliran_list:
+            nama_kelas = f"{tahun} {aliran}"
+            alamat_map[nama_kelas] = f"""Guru Kelas {nama_kelas}
+    Sekolah Kebangsaan Labu Besar
+    Kg Padang Ubi
+    09010 Kulim"""
+
+    alamat_sekolah = alamat_map.get(kelas.strip(), "")
 
     filename = f"Surat_Tidak_Hadir_{nama}.pdf"
     filepath = "temp.pdf"
