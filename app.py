@@ -109,33 +109,23 @@ Kedah Darul Aman."""
 
     # ===== ALAMAT SEKOLAH + TARIKH SEBARIS (VERSI KEMAS) =====
 
-    alamat_lines = alamat_sekolah.split("\n")
+    # ===== ALAMAT SEKOLAH =====
+alamat_lines = alamat_sekolah.split("\n")
 
-    # Papar semua kecuali baris terakhir dahulu
-    for line in alamat_lines[:-1]:
-        elements.append(Paragraph(line, style_left))
+for line in alamat_lines[:-1]:
+    elements.append(Paragraph(line, style_left))
 
-    # Baris terakhir + tarikh
-    data = [[
-        Paragraph(alamat_lines[-1], style_left),
-        Paragraph(tarikh_hari_ini, style_right)
-    ]]
+# Baris terakhir + tarikh dalam satu paragraph
+last_line_with_date = f"""
+<para>
+{alamat_lines[-1]}
+<font size=12>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>
+{tarikh_hari_ini}
+</para>
+"""
 
-    # Lebar ikut margin sebenar
-    usable_width = A4[0] - doc.leftMargin - doc.rightMargin
-
-    table = Table(data, colWidths=[usable_width - 95, 95])
-
-    table.setStyle(TableStyle([
-        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-        ('LEFTPADDING', (0, 0), (-1, -1), 0),
-        ('RIGHTPADDING', (0, 0), (-1, -1), 0),
-        ('TOPPADDING', (0, 0), (-1, -1), 0),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
-    ]))
-
-    elements.append(table)
-    elements.append(Spacer(1, 0.3 * inch))
+elements.append(Paragraph(last_line_with_date, style_left))
+elements.append(Spacer(1, 0.3 * inch))
 
     # ===== TUAN / PUAN =====
     elements.append(Paragraph("Tuan / Puan,", style_left))
