@@ -22,6 +22,12 @@ def generate_pdf():
     kelas = request.form['kelas']
     tarikh_mula = request.form['tarikh_mula']
     tarikh_akhir = request.form['tarikh_akhir']
+    # ===== FORMAT TARIKH KE DD-MM-YYYY =====
+    tarikh_mula_obj = datetime.strptime(tarikh_mula, "%Y-%m-%d")
+    tarikh_akhir_obj = datetime.strptime(tarikh_akhir, "%Y-%m-%d")
+
+    tarikh_mula = tarikh_mula_obj.strftime("%d-%m-%Y")
+    tarikh_akhir = tarikh_akhir_obj.strftime("%d-%m-%Y")
     sebab = request.form['sebab']
     nama_waris = request.form['nama_waris']
     alamat_waris = request.form['alamat_waris']
