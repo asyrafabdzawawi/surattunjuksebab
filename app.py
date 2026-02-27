@@ -36,9 +36,9 @@ def generate_pdf():
         for aliran in aliran_list:
             nama_kelas_auto = f"{tahun} {aliran}"
             alamat_map[nama_kelas_auto] = f"""Guru Kelas {nama_kelas_auto}
-Sekolah Kebangsaan Labu Besar
-Kg Padang Ubi, 09010 Kulim
-Kedah Darul Aman"""
+Sekolah Kebangsaan Labu Besar,
+Kg Padang Ubi, 09010 Kulim,
+Kedah Darul Aman."""
 
     alamat_sekolah = alamat_map.get(kelas.strip(), "")
 
@@ -124,7 +124,7 @@ Kedah Darul Aman"""
     # Lebar ikut margin sebenar
     usable_width = A4[0] - doc.leftMargin - doc.rightMargin
 
-    table = Table(data, colWidths=[usable_width - 120, 120])
+    table = Table(data, colWidths=[usable_width - 95, 95])
 
     table.setStyle(TableStyle([
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
