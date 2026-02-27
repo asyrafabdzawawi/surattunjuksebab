@@ -101,12 +101,12 @@
 <div class="container">
 
     <div class="header">
-        <img src="/templates/logo.jpg" alt="Logo Sekolah">
+        <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo Sekolah">
         <h1>SK Labu Besar</h1>
        
     </div>
 
-    <h2>Borang Surat Tidak Hadir</h2>
+    <h2>Borang Surat Tidak Hadir Ke Sekolah</h2>
 
     <form action="/generate" method="post">
 
