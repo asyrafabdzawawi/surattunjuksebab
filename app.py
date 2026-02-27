@@ -107,27 +107,31 @@ Kedah Darul Aman"""
     ))
     elements.append(Spacer(1, 0.3 * inch))
 
-    # ===== ALAMAT SEKOLAH + TARIKH SEBARIS =====
+    # ===== ALAMAT SEKOLAH + TARIKH SEBARIS (VERSI KEMAS) =====
 
-    # Pecahkan alamat sekolah kepada baris
     alamat_lines = alamat_sekolah.split("\n")
 
-    # Masukkan semua kecuali baris terakhir dahulu
+    # Papar semua kecuali baris terakhir dahulu
     for line in alamat_lines[:-1]:
         elements.append(Paragraph(line, style_left))
 
-    # Baris terakhir + tarikh dalam satu baris (2 column table)
-    data = [
-        [
-            Paragraph(alamat_lines[-1], style_left),
-            Paragraph(tarikh_hari_ini, style_right)
-        ]
-    ]
+    # Baris terakhir + tarikh
+    data = [[
+        Paragraph(alamat_lines[-1], style_left),
+        Paragraph(tarikh_hari_ini, style_right)
+    ]]
 
-    table = Table(data, colWidths=[350, 120])
+    # Lebar ikut margin sebenar
+    usable_width = A4[0] - doc.leftMargin - doc.rightMargin
+
+    table = Table(data, colWidths=[usable_width - 120, 120])
 
     table.setStyle(TableStyle([
-        ('VALIGN', (0, 0), (-1, -1), 'TOP')
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 0),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 0),
+        ('TOPPADDING', (0, 0), (-1, -1), 0),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
     ]))
 
     elements.append(table)
