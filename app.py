@@ -109,23 +109,36 @@ Kedah Darul Aman."""
 
     # ===== ALAMAT SEKOLAH + TARIKH SEBARIS (VERSI KEMAS) =====
 
-    # ===== ALAMAT SEKOLAH =====
-alamat_lines = alamat_sekolah.split("\n")
+   # ===== ALAMAT SEKOLAH + TARIKH SEBARIS (VERSI PRECISE) =====
 
-for line in alamat_lines[:-1]:
-    elements.append(Paragraph(line, style_left))
+    alamat_lines = alamat_sekolah.split("\n")
 
-# Baris terakhir + tarikh dalam satu paragraph
-last_line_with_date = f"""
-<para>
-{alamat_lines[-1]}
-<font size=12>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>
-{tarikh_hari_ini}
-</para>
-"""
+    # Papar semua kecuali baris terakhir dahulu
+    for line in alamat_lines[:-1]:
+        elements.append(Paragraph(line, style_left))
 
-elements.append(Paragraph(last_line_with_date, style_left))
-elements.append(Spacer(1, 0.3 * inch))
+    # Baris terakhir + tarikh
+    data = [[
+        Paragraph(alamat_lines[-1], style_left),
+        Paragraph(tarikh_hari_ini, style_right)
+    ]]
+
+    usable_width = A4[0] - doc.leftMargin - doc.rightMargin
+
+    table = Table(data, colWidths=[None, None])
+    table._argW[0] = usable_width - 1  # paksa table guna full lebar
+
+    table.setStyle(TableStyle([
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('ALIGN', (1, 0), (1, 0), 'RIGHT'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 0),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 0),
+        ('TOPPADDING', (0, 0), (-1, -1), 0),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
+    ]))
+
+    elements.append(table)
+    elements.append(Spacer(1, 0.3 * inch))
 
     # ===== TUAN / PUAN =====
     elements.append(Paragraph("Tuan / Puan,", style_left))
