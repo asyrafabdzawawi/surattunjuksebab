@@ -35,7 +35,7 @@ def generate_pdf():
     for tahun in tahun_list:
         for aliran in aliran_list:
             nama_kelas_auto = f"{tahun} {aliran}"
-            alamat_map[nama_kelas_auto] = f"""Guru Kelas {nama_kelas_auto}
+            alamat_map[nama_kelas_auto] = f"""Guru Kelas, {nama_kelas_auto}
 Sekolah Kebangsaan Labu Besar,
 Kg Padang Ubi, 09010 Kulim,
   Kedah Darul Aman."""
