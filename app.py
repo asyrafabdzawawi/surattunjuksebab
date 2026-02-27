@@ -7,6 +7,7 @@ from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_JUSTIFY
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from datetime import datetime
+from reportlab.platypus import HRFlowable
 import os
 
 app = Flask(__name__)
@@ -90,7 +91,14 @@ def generate_pdf():
     elements.append(Spacer(1, 0.2 * inch))
 
     # ===== GARIS PANJANG =====
-    elements.append(Paragraph("<hr width='100%'/>", style_left))
+    elements.append(HRFlowable(
+        width="100%",
+        thickness=1,
+        lineCap='round',
+        color="black",
+        spaceBefore=1,
+        spaceAfter=1
+    ))
     elements.append(Spacer(1, 0.3 * inch))
 
     # ===== TARIKH (KANAN) =====
