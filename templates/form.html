@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Surat Tidak Hadir</title>
+</head>
+<body>
+    <h2>Borang Tidak Hadir Sekolah</h2>
+    <form action="/generate" method="post">
+        Nama Murid:<br>
+        <input type="text" name="nama" required><br><br>
+
+        Kelas:<br>
+        <input type="text" name="kelas" required><br><br>
+
+        Tarikh Mula:<br>
+        <input type="date" name="tarikh_mula" required><br><br>
+
+        Tarikh Akhir:<br>
+        <input type="date" name="tarikh_akhir" required><br><br>
+
+        Sebab:<br>
+        <input type="text" name="sebab" required><br><br>
+
+        Nama Waris:<br>
+        <input type="text" name="nama_waris" required><br><br>
+
+        <button type="submit">Generate PDF</button>
+    </form>
+</body>
+</html>
