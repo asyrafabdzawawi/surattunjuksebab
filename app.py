@@ -175,7 +175,7 @@ Kg Padang Ubi, 09010 Kulim,
 
     # ===== GARIS TANDATANGAN =====
     elements.append(Paragraph("______________________________", style_left))
-    elements.append(Paragraph(f"({nama_waris})", style_left))
+    elements.append(Paragraph(f"({nama_waris.upper()})", style_left))
 
     doc.build(elements)
 
