@@ -7,7 +7,10 @@ from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_JUSTIFY
 from datetime import datetime
 from reportlab.platypus import HRFlowable
 from reportlab.platypus import Table, TableStyle
+from datetime import datetime
+import pytz
 import os
+
 
 app = Flask(__name__)
 
@@ -94,7 +97,9 @@ Kg Padang Ubi, 09010 Kulim,
         9: "September", 10: "Oktober", 11: "November", 12: "Disember"
     }
 
-    today = datetime.today()
+    malaysia_tz = pytz.timezone("Asia/Kuala_Lumpur")
+    today = datetime.now(malaysia_tz)
+
     tarikh_hari_ini = f"{today.day} {bulan_bm[today.month]} {today.year}"
 
     # ===== ALAMAT WARIS =====
